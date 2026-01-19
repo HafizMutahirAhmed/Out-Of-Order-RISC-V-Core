@@ -1,6 +1,5 @@
 import RISCV_PKG::*;
-module InstructionMemory(input logic EN, 
-                        input string mem_file_path, 
+module InstructionMemory(input logic EN, CLK, 
                         input logic [INSTRUCTION_SIZE-1:0] InstructionAddress,
                         output logic [INSTRUCTION_SIZE-1:0] ReadInstruction);
 
@@ -11,13 +10,14 @@ module InstructionMemory(input logic EN,
         $readmemh(mem_file_path, Memory);
     end
 
-    always_comb begin
+    always_ff (@posedge CLK) begin
         if (EN) begin
-            ReadInstruction = Memory[InstructionAddress>>2];
+            ReadInstruction <= Memory[InstructionAddress>>2];
+            ReadInstruction <= Memory[InstructionAddress>>2 + 4];
         end
 
         else begin
-            ReadInstruction = 32'b0;
+            ReadInstruction <= 32'b0;
         end
 // PC increments by 4 (byte-addressed), but memory is word-addressed (1 word = 4 bytes).
 // So divide PC by 4 (>>2) to get the correct word index for instruction fetch.  

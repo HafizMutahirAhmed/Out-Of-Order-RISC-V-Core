@@ -1,12 +1,12 @@
 module PHT #(
   parameter PHT_ADDRESS  = 9,
-  parameter COUNTER_SIZE   = 2
+  parameter COUNTER_SIZE = 2
 )(
     input logic CLK, reset, actual_taken, update_pht,
-    input logic [8:0] pht_index1, pht_index2, rb_pht_index, 
+    input logic [PHT_ADDRESS-1:0] pht_index1, pht_index2, rb_pht_index, 
     output logic pred_taken1, pred_taken2
 );
-    logic [COUNTER_SIZE-1:0] PHT [0:(1<<PHT_ADDRESS)-1];
+    (* ram_style = "block" *) logic [COUNTER_SIZE-1:0] PHT [0:(1<<PHT_ADDRESS)-1];
 
     function automatic logic [COUNTER_SIZE-1:0] saturating_counter(
         input logic taken, 
@@ -33,12 +33,7 @@ module PHT #(
     endfunction
 
     always_ff @(posedge CLK) begin
-        if (reset) begin
-            for (int i=0; i < (1<<PHT_ADDRESS); i++) begin
-                PHT[i] <= 2'b00;
-            end
-        end
-        else if (update_pht) begin
+        if (update_pht) begin
             PHT[rb_pht_index] <= saturating_counter(.current_state(PHT[rb_pht_index]), .taken(actual_taken));
         end
         pred_taken1 <= PHT[pht_index1][1];
