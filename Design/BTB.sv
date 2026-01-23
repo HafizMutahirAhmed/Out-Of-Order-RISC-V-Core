@@ -10,20 +10,6 @@ module BTB #(
     output logic btb_hit1, btb_hit2, is_ret1, is_ret2, is_branch1, is_branch2,
     output logic [XLEN-1:0] pred_target1, pred_target2
 );  
-    
-    //read signals
-    logic [TAG_SIZE-1:0] btb_tag1, btb_tag2;
-    logic [BTB_ADDRESS-1:0] btb_index1, btb_index2;
-    assign btb_tag1 = pc1[XLEN-1:BTB_ADDRESS+2];
-    assign btb_tag2 = pc2[XLEN-1:BTB_ADDRESS+2];
-    assign btb_index1 = pc1[BTB_ADDRESS+1:2];
-    assign btb_index2 = pc2[BTB_ADDRESS+1:2];
-    //write signals
-    logic [TAG_SIZE-1:0] ex_tag;
-    logic [BTB_ADDRESS-1:0] ex_btb_index;
-    assign ex_tag = ex_pc[XLEN-1:BTB_ADDRESS+2];
-    assign ex_btb_index = ex_pc[BTB_ADDRESS+1:2];
-
     typedef struct packed {
         logic [TAG_SIZE-1:0] tag;
         logic [XLEN-1:0] target_address;
@@ -32,10 +18,24 @@ module BTB #(
         logic is_branch;
     } btb_organization;
 
-    (* ram_style = "block" *) btb_organization BTB [0:(1<<BTB_ADDRESS)-1];
+    (* ram_style = "block" *) btb_organization BTB [0:(1<<BTB_ADDRESS)-1];  
+
+    logic tag_matched1, tag_matched2;
+    //read signals
+    logic [TAG_SIZE-1:0] btb_tag1, btb_tag2;
+    logic [BTB_ADDRESS-1:0] btb_index1, btb_index2;
+    //write signals
+    logic [TAG_SIZE-1:0] ex_tag;
+    logic [BTB_ADDRESS-1:0] ex_btb_index;
 
     assign tag_matched1 = BTB[btb_index1].tag == btb_tag1;
     assign tag_matched2 = BTB[btb_index2].tag == btb_tag2;
+    assign btb_tag1 = pc1[XLEN-1:BTB_ADDRESS+2];
+    assign btb_tag2 = pc2[XLEN-1:BTB_ADDRESS+2];
+    assign btb_index1 = pc1[BTB_ADDRESS+1:2];
+    assign btb_index2 = pc2[BTB_ADDRESS+1:2];
+    assign ex_tag = ex_pc[XLEN-1:BTB_ADDRESS+2];
+    assign ex_btb_index = ex_pc[BTB_ADDRESS+1:2];
 
     always_ff @(posedge CLK) begin
         if (reset) begin
@@ -52,8 +52,8 @@ module BTB #(
         end
         btb_hit1 <= BTB[btb_index1].valid && tag_matched1;
         btb_hit2 <= BTB[btb_index2].valid && tag_matched2;
-        pred_target_address1 <= BTB[btb_index1];
-        pred_target_address2 <= BTB[btb_index2];
+        pred_target1 <= BTB[btb_index1].target_address;
+        pred_target2 <= BTB[btb_index2].target_address;
         is_ret1 <= tag_matched1 && BTB[btb_index1].valid && BTB[btb_index1].is_ret;
         is_ret2 <= tag_matched2 && BTB[btb_index2].valid && BTB[btb_index2].is_ret;
         is_branch1 <= tag_matched1 && BTB[btb_index1].valid && BTB[btb_index1].is_branch;
