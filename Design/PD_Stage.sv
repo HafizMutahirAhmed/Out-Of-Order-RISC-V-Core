@@ -32,16 +32,16 @@ module PD_Stage #(
     //can be further optimized
     logic [XLEN-1:0] always_pc;
     logic forever_loop, forever_set;
-    assign forever_loop = mispredict && (ex_pc == actual_target_address); 
+    assign forever_loop = mispredict && (ex_pc ==actual_target_address||ex_pc ==actual_target_address+4); 
     always_ff @(posedge CLK) begin
         always_pc <= forever_set ? always_pc : (forever_loop ? ex_pc : always_pc);
         if (!forever_set) begin
             forever_set  <= forever_loop;
         end
     end
+    //ends here
     assign pc1 = pc;
     assign pc2 = pc+4;
-    //ends here
     assign pht_index1 = ghr_out ^ pc1[PHT_ADDRESS+1:2];
     assign pht_index2 = ghr_out ^ pc2[PHT_ADDRESS+1:2];
     assign pd_pred_taken1 = pred_taken1;

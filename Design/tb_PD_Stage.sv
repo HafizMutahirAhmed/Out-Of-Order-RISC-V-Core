@@ -49,7 +49,7 @@ module tb_PD_Stage;
         update_ras = 0;
         ex_is_ret = 0;
         ex_is_branch = 0; //is JAL/JALR
-        actual_target_address = 32'h0000000C;
+        actual_target_address = 32'h00000004;
         actual_return_address = 32'h44444444;
         ex_pc                 = 32'h00000004;
         ghr_snap =  9'b101010101;

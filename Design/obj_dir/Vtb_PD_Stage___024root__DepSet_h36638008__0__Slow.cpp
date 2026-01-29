@@ -81,8 +81,10 @@ VL_ATTR_COLD void Vtb_PD_Stage___024root___stl_sequent__TOP__0(Vtb_PD_Stage___02
                         >> 2U)));
     vlSelf->tb_PD_Stage__DOT__dut__DOT__forever_loop 
         = ((IData)(vlSelf->tb_PD_Stage__DOT__mispredict) 
-           & (vlSelf->tb_PD_Stage__DOT__actual_target_address 
-              == vlSelf->tb_PD_Stage__DOT__ex_pc));
+           & ((vlSelf->tb_PD_Stage__DOT__actual_target_address 
+               == vlSelf->tb_PD_Stage__DOT__ex_pc) 
+              | (vlSelf->tb_PD_Stage__DOT__ex_pc == 
+                 ((IData)(4U) + vlSelf->tb_PD_Stage__DOT__actual_target_address))));
     vlSelf->tb_PD_Stage__DOT__dut__DOT__btb_instantiation__DOT__tag_matched1 
         = ((0xffffffU & (IData)((vlSelf->tb_PD_Stage__DOT__dut__DOT__btb_instantiation__DOT__btb_entry1 
                                  >> 0x23U))) == vlSelf->tb_PD_Stage__DOT__dut__DOT__btb_instantiation__DOT__reg_btb_tag1);

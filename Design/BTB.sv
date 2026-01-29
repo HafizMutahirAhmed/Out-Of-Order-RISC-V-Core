@@ -52,7 +52,6 @@ module BTB #(
     always_comb begin
         tag_matched1 = btb_entry1.tag == reg_btb_tag1;
         tag_matched2 = btb_entry2.tag == reg_btb_tag2;      
- 
         btb_hit1 = btb_entry1.valid && tag_matched1;
         btb_hit2 = btb_entry2.valid && tag_matched2;
         pred_target1 = btb_entry1.target_address;

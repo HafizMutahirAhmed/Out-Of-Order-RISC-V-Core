@@ -58,7 +58,7 @@ VL_INLINE_OPT VlCoroutine Vtb_PD_Stage___024root___eval_initial__TOP__Vtiming__1
     vlSelf->tb_PD_Stage__DOT__update_ras = 0U;
     vlSelf->tb_PD_Stage__DOT__ex_is_ret = 0U;
     vlSelf->tb_PD_Stage__DOT__ex_is_branch = 0U;
-    vlSelf->tb_PD_Stage__DOT__actual_target_address = 0xcU;
+    vlSelf->tb_PD_Stage__DOT__actual_target_address = 4U;
     vlSelf->tb_PD_Stage__DOT__actual_return_address = 0x44444444U;
     vlSelf->tb_PD_Stage__DOT__ex_pc = 4U;
     vlSelf->tb_PD_Stage__DOT__ghr_snap = 0x155U;
@@ -103,8 +103,10 @@ VL_INLINE_OPT void Vtb_PD_Stage___024root___act_comb__TOP__0(Vtb_PD_Stage___024r
     // Body
     vlSelf->tb_PD_Stage__DOT__dut__DOT__forever_loop 
         = ((IData)(vlSelf->tb_PD_Stage__DOT__mispredict) 
-           & (vlSelf->tb_PD_Stage__DOT__actual_target_address 
-              == vlSelf->tb_PD_Stage__DOT__ex_pc));
+           & ((vlSelf->tb_PD_Stage__DOT__actual_target_address 
+               == vlSelf->tb_PD_Stage__DOT__ex_pc) 
+              | (vlSelf->tb_PD_Stage__DOT__ex_pc == 
+                 ((IData)(4U) + vlSelf->tb_PD_Stage__DOT__actual_target_address))));
     vlSelf->tb_PD_Stage__DOT__dut__DOT__write_pc_data 
         = ((IData)(vlSelf->tb_PD_Stage__DOT__reset)
             ? 0U : ((IData)(vlSelf->tb_PD_Stage__DOT__mispredict)
