@@ -37,8 +37,6 @@ class alignas(VL_CACHE_LINE_BYTES) Vtb_PD_Stage___024root final : public Verilat
     CData/*0:0*/ tb_PD_Stage__DOT__dut__DOT__is_ret1;
     CData/*0:0*/ tb_PD_Stage__DOT__dut__DOT__is_ret2;
     CData/*2:0*/ tb_PD_Stage__DOT__dut__DOT__sp_snap;
-    CData/*0:0*/ tb_PD_Stage__DOT__dut__DOT__forever_loop;
-    CData/*0:0*/ tb_PD_Stage__DOT__dut__DOT__forever_set;
     CData/*0:0*/ tb_PD_Stage__DOT__dut__DOT__btb_instantiation__DOT__tag_matched1;
     CData/*0:0*/ tb_PD_Stage__DOT__dut__DOT__btb_instantiation__DOT__tag_matched2;
     CData/*2:0*/ tb_PD_Stage__DOT__dut__DOT__ras_instantiation__DOT__sp;
@@ -65,7 +63,7 @@ class alignas(VL_CACHE_LINE_BYTES) Vtb_PD_Stage___024root final : public Verilat
     IData/*31:0*/ tb_PD_Stage__DOT__dut__DOT__ret_addr2;
     IData/*31:0*/ tb_PD_Stage__DOT__dut__DOT__write_pc_data;
     IData/*31:0*/ tb_PD_Stage__DOT__dut__DOT__next_pc;
-    IData/*31:0*/ tb_PD_Stage__DOT__dut__DOT__always_pc;
+    IData/*31:0*/ tb_PD_Stage__DOT__dut__DOT__pc1;
     IData/*23:0*/ tb_PD_Stage__DOT__dut__DOT__btb_instantiation__DOT__reg_btb_tag1;
     IData/*23:0*/ tb_PD_Stage__DOT__dut__DOT__btb_instantiation__DOT__reg_btb_tag2;
     IData/*31:0*/ __VactIterCount;
@@ -77,7 +75,7 @@ class alignas(VL_CACHE_LINE_BYTES) Vtb_PD_Stage___024root final : public Verilat
     VlUnpacked<CData/*1:0*/, 512> tb_PD_Stage__DOT__dut__DOT__pht_instantiation__DOT__PHT;
     VlUnpacked<QData/*58:0*/, 64> tb_PD_Stage__DOT__dut__DOT__btb_instantiation__DOT__BTB;
     VlUnpacked<IData/*31:0*/, 8> tb_PD_Stage__DOT__dut__DOT__ras_instantiation__DOT__RAS;
-    VlUnpacked<CData/*0:0*/, 4> __Vm_traceActivity;
+    VlUnpacked<CData/*0:0*/, 6> __Vm_traceActivity;
     VlDelayScheduler __VdlySched;
     VlTriggerScheduler __VtrigSched_hf88ba093__0;
     VlTriggerVec<1> __VstlTriggered;

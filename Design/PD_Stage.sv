@@ -29,24 +29,13 @@ module PD_Stage #(
     logic [2*XLEN-1:0] ras_snap;
     logic [XLEN-1:0] write_pc_data,next_pc, pc1, pc2;
 
-    //can be further optimized
-    logic [XLEN-1:0] always_pc;
-    logic forever_loop, forever_set;
-    assign forever_loop = mispredict && (ex_pc ==actual_target_address||ex_pc ==actual_target_address+4); 
-    always_ff @(posedge CLK) begin
-        always_pc <= forever_set ? always_pc : (forever_loop ? ex_pc : always_pc);
-        if (!forever_set) begin
-            forever_set  <= forever_loop;
-        end
-    end
-    //ends here
-    assign pc1 = pc;
-    assign pc2 = pc+4;
+    assign pc1 = pd_pc;
+    assign pc2 = pd_pc+4;
     assign pht_index1 = ghr_out ^ pc1[PHT_ADDRESS+1:2];
     assign pht_index2 = ghr_out ^ pc2[PHT_ADDRESS+1:2];
     assign pd_pred_taken1 = pred_taken1;
     assign pd_pred_taken2 = pred_taken2;
-    assign pd_pc = (forever_set)? always_pc: (btb_hit1 || btb_hit2 || mispredict)? write_pc_data: pc; 
+    assign pd_pc = (btb_hit1 || btb_hit2 || mispredict)? write_pc_data: pc;
     assign pd_btb_hit1 = btb_hit1;
     assign pd_btb_hit2 = btb_hit2;
     assign pd_sp_snap = sp_snap;

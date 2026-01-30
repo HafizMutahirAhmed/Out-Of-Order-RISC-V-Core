@@ -71,20 +71,6 @@ VL_ATTR_COLD void Vtb_PD_Stage___024root___stl_sequent__TOP__0(Vtb_PD_Stage___02
     // Body
     vlSelf->tb_PD_Stage__DOT__pd_sp_snap = vlSelf->tb_PD_Stage__DOT__dut__DOT__sp_snap;
     vlSelf->tb_PD_Stage__DOT__pd_ras_snap = vlSelf->tb_PD_Stage__DOT__dut__DOT__ras_snap;
-    vlSelf->tb_PD_Stage__DOT__dut__DOT__pht_index1 
-        = (0x1ffU & ((IData)(vlSelf->tb_PD_Stage__DOT__dut__DOT__ghr_out) 
-                     ^ (vlSelf->tb_PD_Stage__DOT__dut__DOT__pc 
-                        >> 2U)));
-    vlSelf->tb_PD_Stage__DOT__dut__DOT__pht_index2 
-        = (0x1ffU & ((IData)(vlSelf->tb_PD_Stage__DOT__dut__DOT__ghr_out) 
-                     ^ (((IData)(4U) + vlSelf->tb_PD_Stage__DOT__dut__DOT__pc) 
-                        >> 2U)));
-    vlSelf->tb_PD_Stage__DOT__dut__DOT__forever_loop 
-        = ((IData)(vlSelf->tb_PD_Stage__DOT__mispredict) 
-           & ((vlSelf->tb_PD_Stage__DOT__actual_target_address 
-               == vlSelf->tb_PD_Stage__DOT__ex_pc) 
-              | (vlSelf->tb_PD_Stage__DOT__ex_pc == 
-                 ((IData)(4U) + vlSelf->tb_PD_Stage__DOT__actual_target_address))));
     vlSelf->tb_PD_Stage__DOT__dut__DOT__btb_instantiation__DOT__tag_matched1 
         = ((0xffffffU & (IData)((vlSelf->tb_PD_Stage__DOT__dut__DOT__btb_instantiation__DOT__btb_entry1 
                                  >> 0x23U))) == vlSelf->tb_PD_Stage__DOT__dut__DOT__btb_instantiation__DOT__reg_btb_tag1);
@@ -144,6 +130,19 @@ VL_ATTR_COLD void Vtb_PD_Stage___024root___stl_sequent__TOP__0(Vtb_PD_Stage___02
                              : vlSelf->tb_PD_Stage__DOT__dut__DOT__pc))));
     vlSelf->tb_PD_Stage__DOT__dut__DOT__next_pc = ((IData)(8U) 
                                                    + vlSelf->tb_PD_Stage__DOT__dut__DOT__write_pc_data);
+    vlSelf->tb_PD_Stage__DOT__dut__DOT__pc1 = (((IData)(vlSelf->tb_PD_Stage__DOT__dut__DOT__btb_hit1) 
+                                                | ((IData)(vlSelf->tb_PD_Stage__DOT__dut__DOT__btb_hit2) 
+                                                   | (IData)(vlSelf->tb_PD_Stage__DOT__mispredict)))
+                                                ? vlSelf->tb_PD_Stage__DOT__dut__DOT__write_pc_data
+                                                : vlSelf->tb_PD_Stage__DOT__dut__DOT__pc);
+    vlSelf->tb_PD_Stage__DOT__dut__DOT__pht_index1 
+        = (0x1ffU & ((IData)(vlSelf->tb_PD_Stage__DOT__dut__DOT__ghr_out) 
+                     ^ (vlSelf->tb_PD_Stage__DOT__dut__DOT__pc1 
+                        >> 2U)));
+    vlSelf->tb_PD_Stage__DOT__dut__DOT__pht_index2 
+        = (0x1ffU & ((IData)(vlSelf->tb_PD_Stage__DOT__dut__DOT__ghr_out) 
+                     ^ (((IData)(4U) + vlSelf->tb_PD_Stage__DOT__dut__DOT__pc1) 
+                        >> 2U)));
 }
 
 VL_ATTR_COLD void Vtb_PD_Stage___024root___eval_stl(Vtb_PD_Stage___024root* vlSelf) {
@@ -153,6 +152,8 @@ VL_ATTR_COLD void Vtb_PD_Stage___024root___eval_stl(Vtb_PD_Stage___024root* vlSe
     // Body
     if ((1ULL & vlSelf->__VstlTriggered.word(0U))) {
         Vtb_PD_Stage___024root___stl_sequent__TOP__0(vlSelf);
+        vlSelf->__Vm_traceActivity[5U] = 1U;
+        vlSelf->__Vm_traceActivity[4U] = 1U;
         vlSelf->__Vm_traceActivity[3U] = 1U;
         vlSelf->__Vm_traceActivity[2U] = 1U;
         vlSelf->__Vm_traceActivity[1U] = 1U;
@@ -263,9 +264,7 @@ VL_ATTR_COLD void Vtb_PD_Stage___024root___ctor_var_reset(Vtb_PD_Stage___024root
     vlSelf->tb_PD_Stage__DOT__dut__DOT__ras_snap = VL_RAND_RESET_Q(64);
     vlSelf->tb_PD_Stage__DOT__dut__DOT__write_pc_data = VL_RAND_RESET_I(32);
     vlSelf->tb_PD_Stage__DOT__dut__DOT__next_pc = VL_RAND_RESET_I(32);
-    vlSelf->tb_PD_Stage__DOT__dut__DOT__always_pc = VL_RAND_RESET_I(32);
-    vlSelf->tb_PD_Stage__DOT__dut__DOT__forever_loop = VL_RAND_RESET_I(1);
-    vlSelf->tb_PD_Stage__DOT__dut__DOT__forever_set = VL_RAND_RESET_I(1);
+    vlSelf->tb_PD_Stage__DOT__dut__DOT__pc1 = VL_RAND_RESET_I(32);
     for (int __Vi0 = 0; __Vi0 < 512; ++__Vi0) {
         vlSelf->tb_PD_Stage__DOT__dut__DOT__pht_instantiation__DOT__PHT[__Vi0] = VL_RAND_RESET_I(2);
     }
@@ -283,7 +282,7 @@ VL_ATTR_COLD void Vtb_PD_Stage___024root___ctor_var_reset(Vtb_PD_Stage___024root
     }
     vlSelf->tb_PD_Stage__DOT__dut__DOT__ras_instantiation__DOT__sp = VL_RAND_RESET_I(3);
     vlSelf->__Vtrigprevexpr___TOP__tb_PD_Stage__DOT__CLK__0 = VL_RAND_RESET_I(1);
-    for (int __Vi0 = 0; __Vi0 < 4; ++__Vi0) {
+    for (int __Vi0 = 0; __Vi0 < 6; ++__Vi0) {
         vlSelf->__Vm_traceActivity[__Vi0] = 0;
     }
 }
